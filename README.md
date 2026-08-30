@@ -18,6 +18,14 @@ Cubre, con clases y funciones directamente asociadas al proyecto del Parcial 1:
 > Faltan las clases y la lógica que cada equipo debe identificar y construir por su cuenta
 > (por ejemplo: `Competencia`, `Disciplinas`, manejo de robot sin rival, etc.).
 
+
+### Diagrama de clases
+
+<p align="center">
+  <img src="./uml_digrama_clases.png" alt="Diagrama de clases" width="900" />
+</p>
+
+
 ## Estructura
 
 ```
@@ -48,7 +56,7 @@ make run
 O manualmente:
 
 ```bash
-g++ -std=c++17 -Wall -Iinclude src/*.cpp -o demo
+g++ -std=c++17 -Wall -Iinclude src/*.cpp -o gestionCompetencia
 ./demo        # macOS/Linux
 demo.exe      # Windows
 ```
