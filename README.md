@@ -86,4 +86,4 @@ piezas (`Equipo` + `Robot` + `vector` + batalla) en un solo flujo.
 - Métodos que no modifican estado marcados `const`
 - `const auto&` en recorridos `range-based for`
 - `<random>` (`mt19937` + `uniform_int_distribution`) en vez de `rand()`
-- Hola
+
