@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Robot.h"
 #include "Integrante.h"
 #include "Equipo.h"
-#include "UtilRobots.h"
+#include "Competencia.h"
+#include "Enfrentamiento.h"
 
 // ---------------------------------------------------------------------
 // Tema 6: captura de un Equipo completo por consola
@@ -62,6 +64,9 @@ std::vector<Robot> robotsDeEjemplo() {
 }
 
 int main() {
+    Competencia competencia;
+    Enfrentamiento enfrentamiento;
+
     std::cout << "=== Demo POO - Parcial 1: Sistema de gestion de competencia de robotica ===\n";
     std::cout << "(Este programa cubre: captura por consola, vector<Robot>, filtrado y batalla aleatoria)\n";
 
@@ -73,7 +78,7 @@ int main() {
     }
 
     std::string tipoBuscado = "Sumo";
-    std::vector<Robot> filtrados = filtrarPorTipo(robots, tipoBuscado);
+    std::vector<Robot> filtrados = competencia.filtrarPorTipo(robots, tipoBuscado);
     std::cout << "\n--- Robots filtrados por tipo '" << tipoBuscado << "' (" << filtrados.size() << ") ---\n";
     for (const auto& r : filtrados) {
         std::cout << "  " << r.getNombre() << "\n";
@@ -81,7 +86,7 @@ int main() {
 
     // --- Tema 7: simular una batalla aleatoria entre los robots de ejemplo ---
     std::cout << "\n--- Simulacion de batalla (2 robots al azar, ganador al azar) ---\n";
-    int idxGanador = simularBatalla(filtrados);
+    int idxGanador = enfrentamiento.simularBatalla(filtrados);
     std::cout << "Robot ganador: " << filtrados[idxGanador].getNombre()
               << " [" << filtrados[idxGanador].getTipo() << "]\n";
 
@@ -99,7 +104,7 @@ int main() {
     miEquipo.mostrarResumen();
 
     if (miEquipo.getRobots().size() >= 2) {
-        int idx = simularBatalla(miEquipo.getRobots());
+        int idx = enfrentamiento.simularBatalla(miEquipo.getRobots());
         std::cout << "\nGanador de la batalla de ejemplo: "
                   << miEquipo.getRobots()[idx].getNombre() << "\n";
     } else {

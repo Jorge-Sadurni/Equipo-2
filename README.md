@@ -34,12 +34,14 @@ poo_parcial1_demo/
 │   ├── Robot.h
 │   ├── Integrante.h
 │   ├── Equipo.h
-│   └── UtilRobots.h
+│   ├── Competencia.h
+│   └── Enfrentamiento.h
 ├── src/              # Archivos .cpp (implementación)
 │   ├── Robot.cpp
 │   ├── Integrante.cpp
 │   ├── Equipo.cpp
-│   ├── UtilRobots.cpp
+│   ├── Competencia.cpp
+│   ├── Enfrentamiento.cpp
 │   └── main.cpp
 ├── Makefile
 └── README.md
