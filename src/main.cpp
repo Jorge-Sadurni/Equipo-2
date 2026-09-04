@@ -7,6 +7,7 @@
 #include "Competencia.h"
 #include "Enfrentamiento.h"
 
+
 // ---------------------------------------------------------------------
 // Tema 6: captura de un Equipo completo por consola
 // Flujo: nombre del equipo -> numero de integrantes -> cada integrante
