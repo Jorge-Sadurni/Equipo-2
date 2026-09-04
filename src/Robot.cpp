@@ -1,34 +1,24 @@
 #include "Robot.h"
 
-using namespace std;
-
-// Lista de inicializacion: se inicializan los atributos directamente,
-// en lugar de asignarlos en el cuerpo del constructor.
-Robot::Robot(const string &nombre, const string &tipo)
+Robot::Robot(const std::string& nombre, const std::string& tipo)
     : nombre(nombre), tipo(tipo) {}
 
-string Robot::getNombre() const
-{
+std::string Robot::getNombre() const {
     return nombre;
 }
 
-string Robot::getTipo() const
-{
+std::string Robot::getTipo() const {
     return tipo;
 }
 
-void Robot::setNombre(const string &nuevoNombre)
-{
-    if (!nuevoNombre.empty())
-    {
+void Robot::setNombre(const std::string& nuevoNombre) {
+    if (!nuevoNombre.empty()) {
         nombre = nuevoNombre;
     }
 }
 
-void Robot::setTipo(const string &nuevoTipo)
-{
-    if (!nuevoTipo.empty())
-    {
+void Robot::setTipo(const std::string& nuevoTipo) {
+    if (!nuevoTipo.empty()) {
         tipo = nuevoTipo;
     }
 }
