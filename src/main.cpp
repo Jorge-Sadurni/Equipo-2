@@ -7,44 +7,48 @@
 #include "Competencia.h"
 #include "Enfrentamiento.h"
 
+using namespace std;
 
 // ---------------------------------------------------------------------
 // Tema 6: captura de un Equipo completo por consola
 // Flujo: nombre del equipo -> numero de integrantes -> cada integrante
 //        -> numero de robots -> cada robot
 // ---------------------------------------------------------------------
-Equipo capturarEquipo() {
-    std::string nombreEquipo;
-    std::cout << "Nombre del equipo: ";
-    std::getline(std::cin, nombreEquipo);
+Equipo capturarEquipo()
+{
+    string nombreEquipo;
+    cout << "Nombre del equipo: ";
+    getline(cin, nombreEquipo);
 
     Equipo equipo(nombreEquipo);
 
     int numIntegrantes = 0;
-    std::cout << "Numero de integrantes: ";
-    std::cin >> numIntegrantes;
-    std::cin.ignore(); // limpiar el salto de linea pendiente antes de usar getline
+    cout << "Numero de integrantes: ";
+    cin >> numIntegrantes;
+    cin.ignore(); // limpiar el salto de linea pendiente antes de usar getline
 
-    for (int i = 0; i < numIntegrantes; ++i) {
-        std::string nombre, rol;
-        std::cout << "  Integrante " << (i + 1) << " - nombre: ";
-        std::getline(std::cin, nombre);
-        std::cout << "  Integrante " << (i + 1) << " - rol (Analista/Programador/Tester/...): ";
-        std::getline(std::cin, rol);
+    for (int i = 0; i < numIntegrantes; ++i)
+    {
+        string nombre, rol;
+        cout << "  Integrante " << (i + 1) << " - nombre: ";
+        getline(cin, nombre);
+        cout << "  Integrante " << (i + 1) << " - rol (Analista/Programador/Tester/...): ";
+        getline(cin, rol);
         equipo.agregarIntegrante(Integrante(nombre, rol));
     }
 
     int numRobots = 0;
-    std::cout << "Numero de robots: ";
-    std::cin >> numRobots;
-    std::cin.ignore();
+    cout << "Numero de robots: ";
+    cin >> numRobots;
+    cin.ignore();
 
-    for (int i = 0; i < numRobots; ++i) {
-        std::string nombre, tipo;
-        std::cout << "  Robot " << (i + 1) << " - nombre: ";
-        std::getline(std::cin, nombre);
-        std::cout << "  Robot " << (i + 1) << " - tipo (Sumo/Seguidor de linea/Combate/...): ";
-        std::getline(std::cin, tipo);
+    for (int i = 0; i < numRobots; ++i)
+    {
+        string nombre, tipo;
+        cout << "  Robot " << (i + 1) << " - nombre: ";
+        getline(cin, nombre);
+        cout << "  Robot " << (i + 1) << " - tipo (Sumo/Seguidor de linea/Combate/...): ";
+        getline(cin, tipo);
         equipo.agregarRobot(Robot(nombre, tipo));
     }
 
@@ -54,62 +58,69 @@ Equipo capturarEquipo() {
 // ---------------------------------------------------------------------
 // Tema 5: datos de ejemplo para practicar vector<Robot> y filtrado
 // ---------------------------------------------------------------------
-std::vector<Robot> robotsDeEjemplo() {
+vector<Robot> robotsDeEjemplo()
+{
     return {
-        Robot("Titan",     "Sumo"),
-        Robot("Rayo",      "Seguidor de linea"),
-        Robot("Coloso",    "Sumo"),
-        Robot("Vortex",    "Combate"),
-        Robot("Centella",  "Seguidor de linea")
-    };
+        Robot("Titan", "Sumo"),
+        Robot("Rayo", "Seguidor de linea"),
+        Robot("Coloso", "Sumo"),
+        Robot("Vortex", "Combate"),
+        Robot("Centella", "Seguidor de linea")};
 }
 
-int main() {
+int main()
+{
     Competencia competencia;
     Enfrentamiento enfrentamiento;
 
-    std::cout << "=== Demo POO - Parcial 1: Sistema de gestion de competencia de robotica ===\n";
-    std::cout << "(Este programa cubre: captura por consola, vector<Robot>, filtrado y batalla aleatoria)\n";
+    cout << "=== Demo POO - Parcial 1: Sistema de gestion de competencia de robotica ===\n";
+    cout << "(Este programa cubre: captura por consola, vector<Robot>, filtrado y batalla aleatoria)\n";
 
     // --- Tema 5: cargar y filtrar por tipo ---
-    std::vector<Robot> robots = robotsDeEjemplo();
-    std::cout << "\n--- Robots de ejemplo cargados (" << robots.size() << ") ---\n";
-    for (const auto& r : robots) {
-        std::cout << "  " << r.getNombre() << " [" << r.getTipo() << "]\n";
+    vector<Robot> robots = robotsDeEjemplo();
+    cout << "\n--- Robots de ejemplo cargados (" << robots.size() << ") ---\n";
+    for (const auto &r : robots)
+    {
+        cout << "  " << r.getNombre() << " [" << r.getTipo() << "]\n";
     }
 
-    std::string tipoBuscado = "Sumo";
-    std::vector<Robot> filtrados = competencia.filtrarPorTipo(robots, tipoBuscado);
-    std::cout << "\n--- Robots filtrados por tipo '" << tipoBuscado << "' (" << filtrados.size() << ") ---\n";
-    for (const auto& r : filtrados) {
-        std::cout << "  " << r.getNombre() << "\n";
+    string tipoBuscado = "Sumo";
+    vector<Robot> filtrados = competencia.filtrarPorTipo(robots, tipoBuscado);
+    cout << "\n--- Robots filtrados por tipo '" << tipoBuscado << "' (" << filtrados.size() << ") ---\n";
+    for (const auto &r : filtrados)
+    {
+        cout << "  " << r.getNombre() << "\n";
     }
 
     // --- Tema 7: simular una batalla aleatoria entre los robots de ejemplo ---
-    std::cout << "\n--- Simulacion de batalla (2 robots al azar, ganador al azar) ---\n";
+    cout << "\n--- Simulacion de batalla (2 robots al azar, ganador al azar) ---\n";
     int idxGanador = enfrentamiento.simularBatalla(filtrados);
-    std::cout << "Robot ganador: " << filtrados[idxGanador].getNombre()
-              << " [" << filtrados[idxGanador].getTipo() << "]\n";
+    cout << "Robot ganador: " << filtrados[idxGanador].getNombre()
+         << " [" << filtrados[idxGanador].getTipo() << "]\n";
 
     // --- Tema 6 y 9: captura de los equipos ---
-    std::cout << "\n=== SOLO HOY: INSCRIPCION DE ROBOTS ===\n";
+    cout << "\n=== SOLO HOY: INSCRIPCION DE ROBOTS ===\n";
 
     int cantidadEquipos = 0;
-    std::cout << "Cuantos equipos quieren registrarse? ";
-    std::cin >> cantidadEquipos;
-    std::cin.ignore();
+    cout << "Cuantos equipos quieren registrarse? ";
+    cin >> cantidadEquipos;
+    cin.ignore();
 
-    for (int i = 0; i < cantidadEquipos; ++i) {
-        std::cout << "\n--- Registro del equipo " << (i + 1) << " ---\n";
+    for (int i = 0; i < cantidadEquipos; ++i)
+    {
+        cout << "\n--- Registro del equipo " << (i + 1) << " ---\n";
         Equipo equipo = capturarEquipo();
         equipo.mostrarResumen();
 
-        if (equipo.getRobots().size() >= 2) {
+        if (equipo.getRobots().size() >= 2)
+        {
             int idx = enfrentamiento.simularBatalla(equipo.getRobots());
-            std::cout << "\nGanador de la batalla de ejemplo: "
-                      << equipo.getRobots()[idx].getNombre() << "\n";
-        } else {
-            std::cout << "\nSe necesitan al menos 2 robots en el equipo para simular una batalla.\n";
+            cout << "\nGanador de la batalla de ejemplo: "
+                 << equipo.getRobots()[idx].getNombre() << "\n";
+        }
+        else
+        {
+            cout << "\nSe necesitan al menos 2 robots en el equipo para simular una batalla.\n";
         }
     }
 

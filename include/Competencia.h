@@ -3,8 +3,11 @@
 #include <vector>
 #include "Robot.h"
 
-class Competencia {
+using namespace std;
+
+class Competencia
+{
 public:
-    std::vector<Robot> filtrarPorTipo(const std::vector<Robot>& robots,
-                                      const std::string& tipo) const;
+    vector<Robot> filtrarPorTipo(const vector<Robot> &robots,
+                                 const string &tipo) const;
 };

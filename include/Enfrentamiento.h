@@ -2,7 +2,10 @@
 #include <vector>
 #include "Robot.h"
 
-class Enfrentamiento {
+using namespace std;
+
+class Enfrentamiento
+{
 public:
-    int simularBatalla(const std::vector<Robot>& robots) const;
+    int simularBatalla(const vector<Robot> &robots) const;
 };
