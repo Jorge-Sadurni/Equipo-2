@@ -1,22 +1,25 @@
 #pragma once
 #include <string>
 
+using namespace std;
+
 // Clase Robot: representa un robot participante en la competencia.
 // Atributos privados + acceso controlado (encapsulamiento).
-class Robot {
+class Robot
+{
 private:
-    std::string nombre;
-    std::string tipo; // Ej: "Sumo", "Seguidor de linea", "Combate"
+    string nombre;
+    string tipo; // Ej: "Sumo", "Seguidor de linea", "Combate"
 
 public:
     // Constructor con lista de inicializacion
-    Robot(const std::string& nombre, const std::string& tipo);
+    Robot(const string &nombre, const string &tipo);
 
     // Getters
-    std::string getNombre() const;
-    std::string getTipo() const;
+    string getNombre() const;
+    string getTipo() const;
 
     // Setters (con validacion basica)
-    void setNombre(const std::string& nuevoNombre);
-    void setTipo(const std::string& nuevoTipo);
+    void setNombre(const string &nuevoNombre);
+    void setTipo(const string &nuevoTipo);
 };

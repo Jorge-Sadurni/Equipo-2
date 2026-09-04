@@ -1,10 +1,15 @@
 #include "Competencia.h"
 
-std::vector<Robot> Competencia::filtrarPorTipo(const std::vector<Robot>& robots,
-                                               const std::string& tipo) const {
-    std::vector<Robot> resultado;
-    for (const auto& robot : robots) {
-        if (robot.getTipo() == tipo) {
+using namespace std;
+
+vector<Robot> Competencia::filtrarPorTipo(const vector<Robot> &robots,
+                                          const string &tipo) const
+{
+    vector<Robot> resultado;
+    for (const auto &robot : robots)
+    {
+        if (robot.getTipo() == tipo)
+        {
             resultado.push_back(robot);
         }
     }
