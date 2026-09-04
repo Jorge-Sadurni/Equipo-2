@@ -1,18 +1,22 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinclude
-SRC := $(wildcard src/*.cpp)
-OUT = ./build/gestionRobots
+CXXFLAGS = -std=c++11 -Wall -Wextra
+TARGET = competencia_robotica
+SOURCES = main.cpp Competencia.cpp Equipo.cpp Integrante.cpp Robot.cpp Disciplina.cpp Enfrentamiento.cpp
+HEADERS = Competencia.h Equipo.h Integrante.h Robot.h Disciplina.h Enfrentamiento.h
+OBJECTS = $(SOURCES:.cpp=.o)
 
-all: $(OUT)
+all: $(TARGET)
 
-$(OUT): $(SRC)
-	@mkdir -p $(dir $(OUT))
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(OUT)
+$(TARGET): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJECTS)
 
-run: $(OUT)
-	./$(OUT)
+%.o: %.cpp $(HEADERS)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OUT) $(OUT).exe
+	rm -f $(OBJECTS) $(TARGET)
 
-.PHONY: all run clean
+run: $(TARGET)
+	./$(TARGET)
+
+.PHONY: all clean run
