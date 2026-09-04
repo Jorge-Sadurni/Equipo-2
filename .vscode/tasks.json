@@ -1,0 +1,30 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe compilar archivo activo",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+               "${workspaceFolder}/src/*.cpp",  // <--- COMPILA TODOS LOS CPP
+                "-I",
+                "${workspaceFolder}/include",    // <--- INCLUYE LOS HEADERS
+                "-o",
+                "${workspaceFolder}/build/gestionRobots.exe" // <--- GUARDA EL EXE EN BUILD
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tarea generada por el depurador."
+        }
+    ],
+    "version": "2.0.0"
+}
