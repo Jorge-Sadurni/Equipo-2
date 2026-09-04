@@ -2,10 +2,11 @@
 #include <vector>
 #include "Robot.h"
 
-using namespace std;
-
-class Enfrentamiento
-{
+class Enfrentamiento {
 public:
-    int simularBatalla(const vector<Robot> &robots) const;
+    // Simula una batalla entre dos robots, retorna índice del ganador (0 o 1)
+    int simularBatalla(const Robot& robot1, const Robot& robot2) const;
+    
+    // Versión con vector (mantiene compatibilidad)
+    int simularBatalla(const std::vector<Robot>& robots) const;
 };
