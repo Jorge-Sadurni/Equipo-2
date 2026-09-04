@@ -31,7 +31,7 @@ void Competencia::inscribirRobotsAutomaticamente(const Equipo& equipo) {
         if (it != disciplinas.end()) {
             it->second.inscribirRobot(robot);
         } else {
-            std::cout << "⚠️ Tipo de robot no válido: " << robot.getTipo() 
+            std::cout << "Tipo de robot no válido: " << robot.getTipo() 
                       << " (Robot " << robot.getNombre() << ")" << std::endl;
         }
     }
@@ -43,20 +43,20 @@ void Competencia::cerrarRegistro() {
     }
     
     estado = EstadoCompetencia::REGISTRO_CERRADO;
-    std::cout << "\n🔒 Registro cerrado. Iniciando fase de competencia..." << std::endl;
+    std::cout << "\nRegistro cerrado. Iniciando fase de competencia..." << std::endl;
     generarYEjecutarEnfrentamientos();
 }
 
 void Competencia::generarYEjecutarEnfrentamientos() {
     estado = EstadoCompetencia::EN_COMPETENCIA;
     
-    std::cout << "\n⚔️ GENERANDO ENFRENTAMIENTOS..." << std::endl;
+    std::cout << "\nGENERANDO ENFRENTAMIENTOS..." << std::endl;
     
     for (auto& pair : disciplinas) {
         pair.second.generarEnfrentamientos();
     }
     
-    std::cout << "\n⚡ EJECUTANDO BATALLAS..." << std::endl;
+    std::cout << "\nEJECUTANDO BATALLAS..." << std::endl;
     for (auto& pair : disciplinas) {
         pair.second.ejecutarEnfrentamientos();
     }
@@ -81,17 +81,17 @@ std::string Competencia::getEstadoString() const {
 void Competencia::generarReporte() const {
     std::cout << "\n";
     mostrarSeparador();
-    std::cout << "🏁 REPORTE FINAL - " << nombre << std::endl;
+    std::cout << "REPORTE FINAL - " << nombre << std::endl;
     mostrarSeparador();
     
     // Equipos participantes
-    std::cout << "\n📋 EQUIPOS PARTICIPANTES:" << std::endl;
+    std::cout << "\nEQUIPOS PARTICIPANTES:" << std::endl;
     for (const auto& equipo : equipos) {
         equipo.mostrarResumen();
     }
     
     // Resultados por disciplina
-    std::cout << "\n⚔️ RESULTADOS DE BATALLAS:" << std::endl;
+    std::cout << "\nRESULTADOS DE BATALLAS:" << std::endl;
     bool hayResultados = false;
     for (const auto& pair : disciplinas) {
         const auto& resultados = pair.second.getResultados();

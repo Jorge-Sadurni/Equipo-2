@@ -42,7 +42,7 @@ void Disciplina::generarEnfrentamientos() {
     // Si queda un robot sin pareja, reportarlo
     if (robotsMezclados.size() % 2 != 0) {
         const Robot& sinRival = robotsMezclados[robotsMezclados.size() - 1];
-        std::cout << "⚠️ Robot sin rival en " << tipo << ": " << sinRival.getNombre() 
+        std::cout << "Robot sin rival en " << tipo << ": " << sinRival.getNombre() 
                   << " - Pasa directamente a la siguiente fase" << std::endl;
     }
 }
@@ -54,7 +54,7 @@ void Disciplina::ejecutarEnfrentamientos() {
         int ganadorIndex = enfrentamiento.simularBatalla(par.first, par.second);
         const Robot& ganador = (ganadorIndex == 0) ? par.first : par.second;
         
-        std::string resultado = "🏆 " + par.first.getNombre() + " vs " + par.second.getNombre() + 
+        std::string resultado = par.first.getNombre() + " vs " + par.second.getNombre() + 
                                " → GANADOR: " + ganador.getNombre();
         resultados.push_back(resultado);
         std::cout << resultado << std::endl;
