@@ -1,7 +1,9 @@
 #include "Disciplina.h"
+#include "Enfrentamiento.h"
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <stdexcept>
 
 Disciplina::Disciplina(const std::string& tipo) : tipo(tipo) {}
 

@@ -1,8 +1,9 @@
 #include "Enfrentamiento.h"
 #include <cstdlib>
 #include <ctime>
+#include <stdexcept>
 
-int Enfrentamiento::simularBatalla(const Robot& robot1, const Robot& robot2) const {
+int Enfrentamiento::simularBatalla(const Robot&, const Robot&) const {
     // Decisión aleatoria (50% de probabilidad para cada uno)
     return (rand() % 2 == 0) ? 0 : 1;
 }
