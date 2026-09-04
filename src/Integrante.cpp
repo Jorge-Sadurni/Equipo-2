@@ -1,32 +1,24 @@
 #include "Integrante.h"
 
-using namespace std;
-
-Integrante::Integrante(const string &nombre, const string &rol)
+Integrante::Integrante(const std::string& nombre, const std::string& rol)
     : nombre(nombre), rol(rol) {}
 
-string Integrante::getNombre() const
-{
+std::string Integrante::getNombre() const {
     return nombre;
 }
 
-string Integrante::getRol() const
-{
+std::string Integrante::getRol() const {
     return rol;
 }
 
-void Integrante::setNombre(const string &nuevoNombre)
-{
-    if (!nuevoNombre.empty())
-    {
+void Integrante::setNombre(const std::string& nuevoNombre) {
+    if (!nuevoNombre.empty()) {
         nombre = nuevoNombre;
     }
 }
 
-void Integrante::setRol(const string &nuevoRol)
-{
-    if (!nuevoRol.empty())
-    {
+void Integrante::setRol(const std::string& nuevoRol) {
+    if (!nuevoRol.empty()) {
         rol = nuevoRol;
     }
 }
