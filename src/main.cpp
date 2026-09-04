@@ -91,27 +91,27 @@ int main() {
     std::cout << "Robot ganador: " << filtrados[idxGanador].getNombre()
               << " [" << filtrados[idxGanador].getTipo() << "]\n";
 
-    // --- Tema 6 y 9: mini-reto integrador ---
-    // Descomenta este bloque para practicar en clase la captura interactiva
-    // completa de un Equipo (Tema 6) y luego correr una batalla con SUS
-    // propios robots capturados (Tema 9 - mini-reto integrador).
-    //
-    // Recordatorio: esto NO es la solucion del parcial. Falta el resto
-    // del diseno (Competencia, Disciplinas, manejo de robot sin rival, etc.)
-    // que cada equipo debe identificar y construir.
-    /*
-    std::cout << "\n=== Mini-reto integrador: captura tu propio equipo ===\n";
-    Equipo miEquipo = capturarEquipo();
-    miEquipo.mostrarResumen();
+    // --- Tema 6 y 9: captura de los equipos ---
+    std::cout << "\n=== SOLO HOY: INSCRIPCION DE ROBOTS ===\n";
 
-    if (miEquipo.getRobots().size() >= 2) {
-        int idx = enfrentamiento.simularBatalla(miEquipo.getRobots());
-        std::cout << "\nGanador de la batalla de ejemplo: "
-                  << miEquipo.getRobots()[idx].getNombre() << "\n";
-    } else {
-        std::cout << "\nSe necesitan al menos 2 robots en el equipo para simular una batalla.\n";
+    int cantidadEquipos = 0;
+    std::cout << "Cuantos equipos quieren registrarse? ";
+    std::cin >> cantidadEquipos;
+    std::cin.ignore();
+
+    for (int i = 0; i < cantidadEquipos; ++i) {
+        std::cout << "\n--- Registro del equipo " << (i + 1) << " ---\n";
+        Equipo equipo = capturarEquipo();
+        equipo.mostrarResumen();
+
+        if (equipo.getRobots().size() >= 2) {
+            int idx = enfrentamiento.simularBatalla(equipo.getRobots());
+            std::cout << "\nGanador de la batalla de ejemplo: "
+                      << equipo.getRobots()[idx].getNombre() << "\n";
+        } else {
+            std::cout << "\nSe necesitan al menos 2 robots en el equipo para simular una batalla.\n";
+        }
     }
-    */
 
     return 0;
 }
