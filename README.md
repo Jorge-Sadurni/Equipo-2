@@ -1,45 +1,42 @@
-# Demo POO en C++ — Práctica orientada al Parcial 1 (Sistema de gestión de competencia de robótica)
+# Sistema de Gestión de Competencia de Robótica en C++ — Parcial 1
 
-Proyecto de práctica en clase (sesión de viernes) para POO — Mecatrónica, 3er semestre, La Salle Saltillo.
+Proyecto de desarrollo orientado a objetos (POO) — Mecatrónica, 3er semestre, La Salle Saltillo.
 
-Cubre, con clases y funciones directamente asociadas al proyecto del Parcial 1:
+Cubre la arquitectura y el flujo completo para la gestión de equipos, robots, integrantes, filtrado por disciplinas y simulación de batallas:
 
-1. Clase `Robot` — sintaxis básica, separación `.h`/`.cpp`, include guards (`#pragma once`)
-2. Constructores de `Robot` e `Integrante` con lista de inicialización
-3. Getters/setters de `Robot`
+1. Clases `Robot`, `Integrante`, `Equipo`, `Competencia` y `Enfrentamiento` — sintaxis estructurada, separación `.h`/`.cpp`, include guards (`#pragma once`)
+2. Constructores con listas de inicialización
+3. Getters y setters con diseño orientado a objetos
 4. Composición: `Equipo` contiene `vector<Integrante>` y `vector<Robot>`
-5. `std::vector`: carga de robots de ejemplo y filtrado por tipo
-6. Entrada/salida: captura de un `Equipo` completo por consola
-7. `<random>`: selección aleatoria de dos robots y ganador de una batalla
-8. Buenas prácticas: `const` correctness, paso por referencia constante, organización de archivos
-9. Mini-reto integrador (comentado en `main.cpp`, listo para descomentar en clase)
-
-> **Nota importante:** este código es material de práctica, **no** la solución del Parcial 1.
-> Faltan las clases y la lógica que cada equipo debe identificar y construir por su cuenta
-> (por ejemplo: `Competencia`, `Disciplinas`, manejo de robot sin rival, etc.).
+5. `std::vector`: carga de elementos y filtrado de robots por tipo a través de la clase `Competencia`
+6. Entrada/salida: captura interactiva de un `Equipo` completo por consola
+7. `<random>`: simulación de batallas aleatorias mediante la clase `Enfrentamiento`
+8. Buenas prácticas: `const` correctness, paso por referencia constante, organización modular de archivos
 
 
 ### Diagrama de clases
 
 <p align="center">
-  <img src="./uml_digrama_clases.png" alt="Diagrama de clases" width="900" />
+  <img src="Diagrama_de_Clases_Atributos.png" alt="Diagrama de clases" width="900" />
 </p>
 
 
 ## Estructura
 
 ```
-poo_parcial1_demo/
+Gestion_Competencia_Robotica/
 ├── include/          # Archivos .h (declaraciones / interfaz)
 │   ├── Robot.h
 │   ├── Integrante.h
 │   ├── Equipo.h
-│   └── UtilRobots.h
+│   └── Competencia.h
+    └── Enfrentamiento.h
 ├── src/              # Archivos .cpp (implementación)
 │   ├── Robot.cpp
 │   ├── Integrante.cpp
 │   ├── Equipo.cpp
-│   ├── UtilRobots.cpp
+│   ├── Competencia.cpp
+    └──Enfrentamiento.cpp
 │   └── main.cpp
 ├── Makefile
 └── README.md
