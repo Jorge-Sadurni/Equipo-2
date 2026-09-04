@@ -1,62 +1,83 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include <limits>
+#include <string>
 #include "Competencia.h"
 #include "Equipo.h"
 #include "Integrante.h"
 #include "Robot.h"
 
+int leerCantidad(const std::string& mensaje, int minimo, int maximo = 0) {
+    int cantidad;
+    while (true) {
+        std::cout << mensaje;
+        if (std::cin >> cantidad && cantidad >= minimo && (maximo == 0 || cantidad <= maximo)) {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return cantidad;
+        }
+
+        std::cout << "Ingresa un numero valido";
+        if (maximo != 0) {
+            std::cout << " entre " << minimo << " y " << maximo;
+        } else {
+            std::cout << " mayor o igual a " << minimo;
+        }
+        std::cout << ".\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+}
+
+std::string leerTexto(const std::string& mensaje) {
+    std::string texto;
+    do {
+        std::cout << mensaje;
+        std::getline(std::cin, texto);
+        if (texto.empty()) {
+            std::cout << "La respuesta no puede estar vacia.\n";
+        }
+    } while (texto.empty());
+    return texto;
+}
+
+Equipo capturarEquipo(int numeroEquipo) {
+    std::cout << "\n--- Equipo " << numeroEquipo << " ---\n";
+    Equipo equipo(leerTexto("Nombre del equipo: "));
+
+    int cantidadIntegrantes = leerCantidad("Cantidad de integrantes (1-3): ", 1, 3);
+    for (int i = 1; i <= cantidadIntegrantes; ++i) {
+        std::cout << "\nIntegrante " << i << "\n";
+        std::string nombre = leerTexto("Nombre: ");
+        std::string carrera = leerTexto("Carrera (rol): ");
+        equipo.agregarIntegrante(Integrante(nombre, carrera));
+    }
+
+    int cantidadRobots = leerCantidad("Cuantos robots desea registrar en este equipo: ", 1);
+    for (int i = 1; i <= cantidadRobots; ++i) {
+        std::cout << "\nRobot " << i << "\n";
+        std::string nombre = leerTexto("Nombre del robot: ");
+        std::string tipo = leerTexto("Tipo de robot (Sumo, Seguidor de linea, Laberinto o Velocista): ");
+        equipo.agregarRobot(Robot(nombre, tipo));
+    }
+
+    return equipo;
+}
+
 int main() {
-    // Inicializar semilla para números aleatorios
-    srand(static_cast<unsigned int>(time(nullptr)));
-    
     try {
-        // Crear competencia
         Competencia competencia("Competencia de Robótica 2026");
         
-        std::cout << "🤖 BIENVENIDO AL SISTEMA DE GESTIÓN DE COMPETENCIA DE ROBÓTICA" << std::endl;
+        std::cout << "BIENVENIDO AL SISTEMA DE GESTION DE COMPETENCIA DE ROBOTICA" << std::endl;
         std::cout << "Estado inicial: " << competencia.getEstadoString() << std::endl;
-        
-        // === CREAR EQUIPO 1 ===
-        Equipo equipo1("RoboTitans");
-        equipo1.agregarIntegrante(Integrante("Ana García", "Programador"));
-        equipo1.agregarIntegrante(Integrante("Carlos Ruiz", "Mecánico"));
-        
-        equipo1.agregarRobot(Robot("Titan-1", "Sumo"));
-        equipo1.agregarRobot(Robot("Titan-2", "Seguidor de linea"));
-        equipo1.agregarRobot(Robot("Titan-3", "Laberinto"));
-        
-        // === CREAR EQUIPO 2 ===
-        Equipo equipo2("MechWarriors");
-        equipo2.agregarIntegrante(Integrante("María López", "Analista"));
-        equipo2.agregarIntegrante(Integrante("Juan Pérez", "Programador"));
-        equipo2.agregarIntegrante(Integrante("Laura Torres", "Diseñador"));
-        
-        equipo2.agregarRobot(Robot("Warrior-1", "Sumo"));
-        equipo2.agregarRobot(Robot("Warrior-2", "Velocista"));
-        equipo2.agregarRobot(Robot("Warrior-3", "Seguidor de linea"));
-        
-        // === CREAR EQUIPO 3 ===
-        Equipo equipo3("CircuitBreakers");
-        equipo3.agregarIntegrante(Integrante("Pedro Sánchez", "Tester"));
-        equipo3.agregarIntegrante(Integrante("Sofia Martínez", "Programador"));
-        
-        equipo3.agregarRobot(Robot("Breaker-1", "Sumo"));
-        equipo3.agregarRobot(Robot("Breaker-2", "Laberinto"));
-        
-        // === REGISTRAR EQUIPOS ===
-        std::cout << "\n📝 Registrando equipos..." << std::endl;
-        competencia.registrarEquipo(equipo1);
-        competencia.registrarEquipo(equipo2);
-        competencia.registrarEquipo(equipo3);
-        
-        // === CERRAR REGISTRO Y COMENZAR COMPETENCIA ===
+
+        int cantidadEquipos = leerCantidad("Cantidad de equipos: ", 1);
+        for (int i = 1; i <= cantidadEquipos; ++i) {
+            competencia.registrarEquipo(capturarEquipo(i));
+        }
+
         competencia.cerrarRegistro();
-        
-        // === GENERAR REPORTE FINAL ===
         competencia.generarReporte();
-        
-        std::cout << "\n✅ Competencia finalizada exitosamente!" << std::endl;
+
+        std::cout << "\nCompetencia finalizada exitosamente!" << std::endl;
         
     } catch (const std::exception& e) {
         std::cerr << "❌ Error: " << e.what() << std::endl;

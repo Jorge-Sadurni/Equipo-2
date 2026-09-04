@@ -34,7 +34,7 @@ void Equipo::mostrarResumen() const {
     std::cout << "  Integrantes:" << std::endl;
     for (const auto& integrante : integrantes) {
         std::cout << "    - " << integrante.getNombre() 
-                  << " (" << integrante.getRol() << ")" << std::endl;
+                  << " (Carrera: " << integrante.getRol() << ")" << std::endl;
     }
     
     std::cout << "  Robots:" << std::endl;
