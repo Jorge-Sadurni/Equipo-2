@@ -43,35 +43,55 @@ int leerCantidad(const std::string& mensaje, int minimo, int maximo = 0) {
         std::cout << "Ingresa un numero entero valido";
         if (maximo != 0) {
             std::cout << " entre " << minimo << " y " << maximo;
-        } else {
+        }
+    }
+}
+            std::cout << " entre " << minimo << " y " << maximo;
+        }
+        else
+        {
             std::cout << " mayor o igual a " << minimo;
         }
         std::cout << ".\n";
     }
 }
 
-std::string leerTexto(const std::string& mensaje) {
+std::string leerTexto(const std::string &mensaje)
+{
     std::string texto;
-    while (true) {
+std::string leerTexto(const std::string &mensaje)
+{
+    std::string texto;
+
+    do
+    {
         std::cout << mensaje;
         std::getline(std::cin, texto);
 
         texto = normalizarTexto(texto);
 
-        if (!texto.empty()) {
-            return texto;
+        if (texto.empty())
+        {
+            std::cout << "La respuesta no puede estar vacia ni estar formada solo por espacios.\n";
+        }
+    } while (texto.empty());
+
+    return texto;
+}
         }
 
         std::cout << "La respuesta no puede estar vacia ni estar formada solo por espacios.\n";
     }
 }
 
-Equipo capturarEquipo(int numeroEquipo) {
+Equipo capturarEquipo(int numeroEquipo)
+{
     std::cout << "\n--- Equipo " << numeroEquipo << " ---\n";
     Equipo equipo(leerTexto("Nombre del equipo: "));
 
     int cantidadIntegrantes = leerCantidad("Cantidad de integrantes (1-3): ", 1, 3);
-    for (int i = 1; i <= cantidadIntegrantes; ++i) {
+    for (int i = 1; i <= cantidadIntegrantes; ++i)
+    {
         std::cout << "\nIntegrante " << i << "\n";
         std::string nombre = leerTexto("Nombre: ");
         std::string carrera = leerTexto("Carrera (rol): ");
@@ -79,7 +99,8 @@ Equipo capturarEquipo(int numeroEquipo) {
     }
 
     int cantidadRobots = leerCantidad("Cuantos robots desea registrar en este equipo: ", 1);
-    for (int i = 1; i <= cantidadRobots; ++i) {
+    for (int i = 1; i <= cantidadRobots; ++i)
+    {
         std::cout << "\nRobot " << i << "\n";
         std::string nombre = leerTexto("Nombre del robot: ");
         std::string tipo = leerTexto("Tipo de robot (Sumo, Seguidor de linea, Laberinto o Velocista): ");
@@ -89,15 +110,18 @@ Equipo capturarEquipo(int numeroEquipo) {
     return equipo;
 }
 
-int main() {
-    try {
+int main()
+{
+    try
+    {
         Competencia competencia("Competencia de Robótica 2026");
 
         std::cout << "BIENVENIDO AL SISTEMA DE GESTION DE COMPETENCIA DE ROBOTICA" << std::endl;
         std::cout << "Estado inicial: " << competencia.getEstadoString() << std::endl;
 
         int cantidadEquipos = leerCantidad("Cantidad de equipos: ", 1);
-        for (int i = 1; i <= cantidadEquipos; ++i) {
+        for (int i = 1; i <= cantidadEquipos; ++i)
+        {
             competencia.registrarEquipo(capturarEquipo(i));
         }
 
@@ -106,6 +130,9 @@ int main() {
 
         std::cout << "\nCompetencia finalizada exitosamente!" << std::endl;
     } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;
     }
