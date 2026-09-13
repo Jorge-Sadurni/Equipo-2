@@ -1,18 +1,17 @@
-# Sistema de Gestión de Competencia de Robótica en C++ — Parcial 1
+# Sistema de Gestión de Competencia de Robótica en C++
 
-Proyecto de desarrollo orientado a objetos (POO) — Mecatrónica, 3er semestre, La Salle Saltillo.
+Proyecto orientado a objetos para gestionar una competencia de robótica, donde se registran equipos, integrantes y robots, se clasifican por disciplina y se generan enfrentamientos automáticos entre robots del mismo tipo.
 
-Cubre la arquitectura y el flujo completo para la gestión de equipos, robots, integrantes, filtrado por disciplinas y simulación de batallas:
+## Descripción general
 
-1. Clases `Robot`, `Integrante`, `Equipo`, `Competencia` y `Enfrentamiento` — sintaxis estructurada, separación `.h`/`.cpp`, include guards (`#pragma once`)
-2. Constructores con listas de inicialización
-3. Getters y setters con diseño orientado a objetos
-4. Composición: `Equipo` contiene `vector<Integrante>` y `vector<Robot>`
-5. `std::vector`: carga de elementos y filtrado de robots por tipo a través de la clase `Competencia`
-6. Entrada/salida: captura interactiva de un `Equipo` completo por consola
-7. `<random>`: simulación de batallas aleatorias mediante la clase `Enfrentamiento`
-8. Buenas prácticas: `const` correctness, paso por referencia constante, organización modular de archivos
+Este proyecto modela una competencia en la que:
 
+1. Se crean equipos con nombre, integrantes y robots.
+2. Cada robot pertenece a un tipo o disciplina, como `Sumo`, `Seguidor de linea`, `Laberinto` o `Velocista`.
+3. La competencia valida el registro, cierra la fase de inscripción y genera enfrentamientos por disciplina.
+4. Se ejecutan batallas aleatorias y se presenta un reporte final con los resultados.
+
+El desarrollo está organizado con separación entre interfaz y lógica, usando clases propias para cada entidad del dominio.
 
 ### Diagrama de clases
 
@@ -20,67 +19,109 @@ Cubre la arquitectura y el flujo completo para la gestión de equipos, robots, i
   <img src="Diagrama_de_Clases_Atributos.png" alt="Diagrama de clases" width="900" />
 </p>
 
+## Estructura del proyecto
 
-## Estructura
-
-```
-Gestion_Competencia_Robotica/
-├── include/          # Archivos .h (declaraciones / interfaz)
-│   ├── Robot.h
-│   ├── Integrante.h
+```text
+Equipo-2/
+├── include/                         # Declaraciones de clases
+│   ├── Competencia.h
+│   ├── Disciplina.h
+│   ├── Enfrentamiento.h
 │   ├── Equipo.h
-│   └── Competencia.h
-    └── Enfrentamiento.h
-├── src/              # Archivos .cpp (implementación)
-│   ├── Robot.cpp
-│   ├── Integrante.cpp
-│   ├── Equipo.cpp
+│   ├── Integrante.h
+│   └── Robot.h
+├── src/                            # Implementación de las clases
 │   ├── Competencia.cpp
-    └──Enfrentamiento.cpp
+│   ├── Disciplina.cpp
+│   ├── Enfrentamiento.cpp
+│   ├── Equipo.cpp
+│   ├── Integrante.cpp
+│   ├── Robot.cpp
 │   └── main.cpp
-├── Makefile
-└── README.md
+├── build/                          # Archivo compilado generado por el proyecto
+├── Makefile                        # Compilación y ejecución rápida
+├── README.md
+└── Diagrama_de_Clases_Atributos.png
 ```
+
+## Clases principales
+
+- `Robot`: representa a cada robot participante y almacena su nombre y tipo.
+- `Integrante`: almacena los datos de cada integrante del equipo.
+- `Equipo`: compone a un equipo con varios integrantes y varios robots.
+- `Disciplina`: agrupa robots por tipo y organiza sus enfrentamientos.
+- `Enfrentamiento`: simula la batalla entre dos robots.
+- `Competencia`: administra el estado de la competencia, registra equipos y genera reportes finales.
 
 ## Compilar y correr
 
-### Windows / macOS / Linux (con `g++` en el PATH)
+### Opción recomendada con Makefile
+
+Desde la raíz del proyecto:
 
 ```bash
+make
 make run
 ```
 
-O manualmente:
+Esto compila el proyecto y ejecuta el programa generado.
+
+### Compilación manual
 
 ```bash
-g++ -std=c++17 -Wall -Iinclude src/*.cpp -o gestionCompetencia
-./demo        # macOS/Linux
-demo.exe      # Windows
+g++ -std=c++11 -Wall -Wextra -Iinclude src/main.cpp src/Competencia.cpp src/Disciplina.cpp src/Enfrentamiento.cpp src/Equipo.cpp src/Integrante.cpp src/Robot.cpp -o competencia_robotica
+./competencia_robotica
 ```
 
-### Sin `make` (por ejemplo, usando la extensión de C++ de VSCode)
+### En Windows
 
-Compilar todos los `.cpp` de `src/` agregando `include/` como carpeta de headers (`-I include`).
+```bash
+competencia_robotica.exe
+```
 
 ## Qué esperar al correrlo
 
-El programa, tal como está, hace lo siguiente automáticamente:
+Al ejecutar el programa, la aplicación se comporta de la siguiente manera:
 
-1. Carga 5 robots de ejemplo (`vector<Robot>`)
-2. Filtra los robots de tipo `"Sumo"`
-3. Simula una batalla aleatoria entre dos robots y anuncia un ganador
+1. Muestra el nombre de la competencia y su estado inicial.
+2. Solicita la cantidad de equipos a registrar.
+3. Para cada equipo, pide:
+   - nombre del equipo
+   - cantidad de integrantes (máximo 3)
+   - nombre y carrera de cada integrante
+   - cantidad de robots a registrar
+   - nombre y tipo de cada robot
+4. Al terminar la captura, cierra el registro de equipos.
+5. La competencia inicializa sus disciplinas y registra automáticamente cada robot según su tipo.
+6. Genera enfrentamientos por disciplina y ejecuta las batallas aleatorias.
+7. Muestra el reporte final con los equipos participantes y los resultados por disciplina.
 
-El bloque de **captura interactiva de un `Equipo`** y el **mini-reto integrador** están comentados
-al final de `main.cpp` — se descomentan en clase para practicar `cin`/`getline` y unir todas las
-piezas (`Equipo` + `Robot` + `vector` + batalla) en un solo flujo.
+En resumen, la aplicación no solo construye la estructura del problema, sino que también ejecuta todo el flujo real de una competencia: inscripción, clasificación, enfrentamientos y reporte final.
 
-## Buenas prácticas aplicadas (para señalar en clase)
+## Buenas prácticas aplicadas dentro del código
 
-- Include guards (`#pragma once`) en todos los `.h`
-- Separación interfaz (`.h`) / implementación (`.cpp`)
-- Listas de inicialización en constructores
-- Parámetros `std::string` recibidos por referencia constante (`const std::string&`)
-- Métodos que no modifican estado marcados `const`
-- `const auto&` en recorridos `range-based for`
-- `<random>` (`mt19937` + `uniform_int_distribution`) en vez de `rand()`
+Se incorporan varios principios de programación orientada a objetos y buenas prácticas de C++:
+
+- Separación de responsabilidades entre archivos `.h` y `.cpp`.
+- Uso de `#pragma once` para evitar múltiples inclusiones de cabeceras.
+- Encapsulamiento con atributos privados y acceso controlado por getters/setters.
+- Constructores con listas de inicialización.
+- Parámetros por referencia constante (`const std::string&`) para evitar copias innecesarias.
+- Uso de `const` en métodos que no modifican el estado del objeto.
+- Validaciones básicas en setters y en la lógica de registro, por ejemplo, evitando equipos con demasiados integrantes o tipos inválidos.
+- Uso de `std::vector` para manejar colecciones dinámicas de equipos, integrantes y robots.
+- Organización modular del comportamiento: cada clase tiene una responsabilidad clara dentro del sistema.
+- Uso de `std::random` para simular resultados de manera más realista que un simple `rand()`.
+- Manejo de errores con `std::runtime_error` y `std::invalid_argument` para avisar cuando una operación no es válida.
+
+## Observaciones
+
+- El proyecto está pensado para un ejercicio académico de POO y programación con C++.
+- La lógica de competencia es didáctica, pero sigue una estructura clara que puede ampliarse para nuevas disciplinas, métricas o tipos de robot.
+- El flujo interactivo de consola está diseñado para que el usuario pueda registrar equipos reales y observar el resultado de la competencia en tiempo de ejecución.
+
+## Errores Conocidos y Areas de Mejora
+
+- ** Registro de Equipos
+ - En la fase de registrar equipos 
 
