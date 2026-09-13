@@ -1,11 +1,13 @@
 #include "Enfrentamiento.h"
-#include <cstdlib>
-#include <ctime>
+#include <random>
 #include <stdexcept>
 
 int Enfrentamiento::simularBatalla(const Robot&, const Robot&) const {
-    // Decisión aleatoria (50% de probabilidad para cada uno)
-    return (rand() % 2 == 0) ? 0 : 1;
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<int> dist(0, 1);
+
+    return dist(gen);
 }
 
 int Enfrentamiento::simularBatalla(const std::vector<Robot>& robots) const {

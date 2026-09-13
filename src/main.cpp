@@ -1,42 +1,69 @@
+#include <cctype>
 #include <iostream>
 #include <limits>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include "Competencia.h"
 #include "Equipo.h"
 #include "Integrante.h"
 #include "Robot.h"
 
+static std::string normalizarTexto(const std::string& texto) {
+    size_t inicio = 0;
+    size_t fin = texto.size();
+
+    while (inicio < fin && std::isspace(static_cast<unsigned char>(texto[inicio]))) {
+        ++inicio;
+    }
+
+    while (fin > inicio && std::isspace(static_cast<unsigned char>(texto[fin - 1]))) {
+        --fin;
+    }
+
+    return texto.substr(inicio, fin - inicio);
+}
+
 int leerCantidad(const std::string& mensaje, int minimo, int maximo = 0) {
-    int cantidad;
     while (true) {
+        std::string entrada;
         std::cout << mensaje;
-        if (std::cin >> cantidad && cantidad >= minimo && (maximo == 0 || cantidad <= maximo)) {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        if (!std::getline(std::cin, entrada)) {
+            throw std::runtime_error("No se pudo leer la entrada.");
+        }
+
+        std::stringstream ss(entrada);
+        int cantidad = 0;
+        char extra = '\0';
+
+        if (ss >> cantidad && !(ss >> extra) && cantidad >= minimo && (maximo == 0 || cantidad <= maximo)) {
             return cantidad;
         }
 
-        std::cout << "Ingresa un numero valido";
+        std::cout << "Ingresa un numero entero valido";
         if (maximo != 0) {
             std::cout << " entre " << minimo << " y " << maximo;
         } else {
             std::cout << " mayor o igual a " << minimo;
         }
         std::cout << ".\n";
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
 
 std::string leerTexto(const std::string& mensaje) {
     std::string texto;
-    do {
+    while (true) {
         std::cout << mensaje;
         std::getline(std::cin, texto);
-        if (texto.empty()) {
-            std::cout << "La respuesta no puede estar vacia.\n";
+
+        texto = normalizarTexto(texto);
+
+        if (!texto.empty()) {
+            return texto;
         }
-    } while (texto.empty());
-    return texto;
+
+        std::cout << "La respuesta no puede estar vacia ni estar formada solo por espacios.\n";
+    }
 }
 
 Equipo capturarEquipo(int numeroEquipo) {
@@ -65,7 +92,7 @@ Equipo capturarEquipo(int numeroEquipo) {
 int main() {
     try {
         Competencia competencia("Competencia de Robótica 2026");
-        
+
         std::cout << "BIENVENIDO AL SISTEMA DE GESTION DE COMPETENCIA DE ROBOTICA" << std::endl;
         std::cout << "Estado inicial: " << competencia.getEstadoString() << std::endl;
 
@@ -78,11 +105,10 @@ int main() {
         competencia.generarReporte();
 
         std::cout << "\nCompetencia finalizada exitosamente!" << std::endl;
-        
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;
     }
-    
+
     return 0;
 }
