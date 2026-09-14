@@ -1,15 +1,17 @@
 # Sistema de Gestión de Competencia de Robótica en C++
 
-Proyecto orientado a objetos para gestionar una competencia de robótica, donde se registran equipos, integrantes y robots, se clasifican por disciplina y se generan enfrentamientos automáticos entre robots del mismo tipo.
+Proyecto orientado a objetos para gestionar una competencia de robotica estudiantil para estudiantes de ingenieria. Solo participan las carreras INGENIERIA MECATRONICA, INGENIERIA INDUSTRIAL e INGENIERIA AMBIENTAL.
 
 ## Descripción general
 
 Este proyecto modela una competencia en la que:
 
 1. Se crean equipos con nombre, integrantes y robots.
-2. Cada robot pertenece a un tipo o disciplina, como `Sumo`, `Seguidor de linea` o `Velocista`.
+2. Cada robot pertenece a una disciplina: `SUMO`, `SEGUIDOR DE LINEA` o `VELOCISTA`.
 3. La competencia valida el registro, cierra la fase de inscripción y genera enfrentamientos por disciplina.
 4. Se ejecutan batallas aleatorias y se presenta un reporte final con los resultados.
+
+La competencia permite un maximo de 10 equipos y cada equipo puede registrar como maximo 2 robots. Los nombres de equipos, integrantes y robots no pueden repetirse. Los textos registrados se convierten a MAYUSCULAS y se normalizan sin acentos.
 
 El desarrollo está organizado con separación entre interfaz y lógica, usando clases propias para cada entidad del dominio.
 
@@ -25,7 +27,7 @@ Las clases del sistema colaboran mediante llamadas a sus metodos y no utilizan h
 
 - `Competencia`: administra el nombre, el estado, los equipos y las disciplinas. Registra equipos, cierra el registro, clasifica robots y genera los enfrentamientos.
 - `Equipo`: representa un equipo y contiene integrantes y robots.
-- `Integrante`: representa a una persona del equipo con nombre y rol.
+- `Integrante`: representa a una persona del equipo con nombre y carrera.
 - `Robot`: representa un robot con nombre y tipo de disciplina.
 - `Disciplina`: agrupa robots del mismo tipo, genera enfrentamientos y almacena sus resultados.
 - `Enfrentamiento`: simula la competencia entre dos robots y determina el ganador.
@@ -84,28 +86,20 @@ Equipo-2/
 
 ## Compilar y correr
 
-
-### Compilación manual
-
-```bash
-g++ -std=c++11 -Wall -Wextra -Iinclude src/main.cpp src/Competencia.cpp src/Disciplina.cpp src/Enfrentamiento.cpp src/Equipo.cpp src/Integrante.cpp src/Robot.cpp -o gestionRobots
-./gestionRobots
-```
-
 ### En Windows
 
-Después de compilar el proyecto, ejecuta:
+Ejecuta el programa compilado:
 
 ```powershell
-.\gestionRobots.exe
+.\build\gestionRobots.exe
 ```
 
 ### En macOS
 
-Después de compilar el proyecto, ejecuta desde la carpeta principal:
+Ejecuta el programa compilado:
 
 ```bash
-./gestionRobots
+./build/gestionRobots
 ```
 
 ## Qué esperar al correrlo
@@ -114,12 +108,12 @@ Al ejecutar el programa, la aplicación se comporta de la siguiente manera:
 
 1. Muestra el nombre de la competencia y su estado inicial.
 2. Solicita la cantidad de equipos a registrar.
-3. Para cada equipo, pide:
+2. Para cada equipo, pide:
    - nombre del equipo
    - cantidad de integrantes (máximo 3)
-   - nombre y carrera de cada integrante
-   - cantidad de robots a registrar
-   - nombre y tipo de cada robot
+  - nombre y carrera de cada integrante. Las carreras validas son INGENIERIA MECATRONICA, INGENIERIA INDUSTRIAL e INGENIERIA AMBIENTAL
+  - cantidad de robots a registrar (maximo 2)
+  - nombre y disciplina de cada robot. Las disciplinas validas son SUMO, SEGUIDOR DE LINEA y VELOCISTA
 4. Al terminar la captura, cierra el registro de equipos.
 5. La competencia inicializa sus disciplinas y registra automáticamente cada robot según su tipo.
 6. Genera enfrentamientos por disciplina y ejecuta las batallas aleatorias.

@@ -9,7 +9,7 @@ Competencia::Competencia(const std::string& nombre)
 
 void Competencia::inicializarDisciplinas() {
     
-    std::vector<std::string> tipos = {"Sumo", "Seguidor de linea", "Velocista"};
+    std::vector<std::string> tipos = {"SUMO", "SEGUIDOR DE LINEA", "VELOCISTA"};
     for (const auto& tipo : tipos) {
         disciplinas.emplace(tipo, Disciplina(tipo));
     }
@@ -18,6 +18,9 @@ void Competencia::inicializarDisciplinas() {
 void Competencia::registrarEquipo(const Equipo& equipo) {
     if (estado != EstadoCompetencia::REGISTRO_ABIERTO) {
         throw std::runtime_error("El registro está cerrado");
+    }
+    if (equipos.size() >= 10) {
+        throw std::runtime_error("La competencia permite un maximo de 10 equipos");
     }
     
     equipos.push_back(equipo);

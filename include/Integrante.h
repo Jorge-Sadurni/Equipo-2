@@ -8,14 +8,14 @@ class Integrante
 {
 private:
     string nombre;
-    string rol; // Ej: "Analista", "Programador", "Tester"
+    string carrera;
 
 public:
-    Integrante(const string &nombre, const string &rol);
+    Integrante(const string &nombre, const string &carrera);
 
     string getNombre() const;
-    string getRol() const;
+    string getCarrera() const;
 
     void setNombre(const string &nuevoNombre);
-    void setRol(const string &nuevoRol);
+    void setCarrera(const string &nuevaCarrera);
 };

@@ -2,6 +2,7 @@
 #include <cctype>
 #include <iostream>
 #include <limits>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -26,24 +27,38 @@ static std::string normalizarTexto(const std::string& texto) {
         --fin;
     }
 
-    return texto.substr(inicio, fin - inicio);
+    std::string resultado = texto.substr(inicio, fin - inicio);
+    const std::vector<std::pair<std::string, std::string>> acentos = {
+        {"á", "a"}, {"é", "e"}, {"í", "i"}, {"ó", "o"}, {"ú", "u"},
+        {"Á", "A"}, {"É", "E"}, {"Í", "I"}, {"Ó", "O"}, {"Ú", "U"},
+        {"ü", "u"}, {"Ü", "U"}, {"ñ", "n"}, {"Ñ", "N"}
+    };
+
+    for (const auto& acento : acentos) {
+        size_t posicion = 0;
+        while ((posicion = resultado.find(acento.first, posicion)) != std::string::npos) {
+            resultado.replace(posicion, acento.first.size(), acento.second);
+            posicion += acento.second.size();
+        }
+    }
+
+    std::transform(resultado.begin(), resultado.end(), resultado.begin(), [](unsigned char c) {
+        return static_cast<char>(std::toupper(c));
+    });
+    return resultado;
 }
 
 static std::string normalizarTipoRobot(const std::string& tipo) {
     std::string copia = normalizarTexto(tipo);
-    std::transform(copia.begin(), copia.end(), copia.begin(), [](unsigned char c) {
-        return static_cast<char>(std::tolower(c));
-    });
 
-    if (copia == "sumo") return "Sumo";
-    if (copia == "seguidor de linea" || copia == "seguidor de línea" || copia == "seguidor de la linea") return "Seguidor de linea";
-    if (copia == "laberinto") return "Laberinto";
-    if (copia == "velocista") return "Velocista";
+    if (copia == "SUMO") return "SUMO";
+    if (copia == "SEGUIDOR DE LINEA") return "SEGUIDOR DE LINEA";
+    if (copia == "VELOCISTA") return "VELOCISTA";
     return "";
 }
 
 static std::vector<std::string> tiposValidosRobot() {
-    return {"Sumo", "Seguidor de linea", "Laberinto", "Velocista"};
+    return {"SUMO", "SEGUIDOR DE LINEA", "VELOCISTA"};
 }
 
 int leerCantidad(const std::string& mensaje, int minimo, int maximo = 0) {
@@ -91,11 +106,40 @@ std::string leerTexto(const std::string& mensaje) {
     }
 }
 
+std::string leerNombreUnico(const std::string& mensaje, std::set<std::string>& nombresUsados) {
+    while (true) {
+        std::string nombre = leerTexto(mensaje);
+        if (nombresUsados.insert(nombre).second) {
+            return nombre;
+        }
+
+        std::cout << "Ese nombre ya existe. Ingresa un nombre diferente.\n";
+    }
+}
+
+std::string leerCarrera(const std::string& mensaje) {
+    const std::vector<std::string> carreras = {
+        "INGENIERIA MECATRONICA",
+        "INGENIERIA INDUSTRIAL",
+        "INGENIERIA AMBIENTAL"
+    };
+
+    while (true) {
+        std::string carrera = leerTexto(mensaje + " (" + carreras[0] + ", " + carreras[1] + ", " + carreras[2] + "): ");
+        if (std::find(carreras.begin(), carreras.end(), carrera) != carreras.end()) {
+            return carrera;
+        }
+
+        std::cout << "Carrera invalida. Solo se permiten: " << carreras[0] << ", "
+                  << carreras[1] << " y " << carreras[2] << ".\n";
+    }
+}
+
 std::string leerTipoRobot(const std::string& mensaje) {
     const std::vector<std::string> tipos = tiposValidosRobot();
 
     while (true) {
-        std::string entrada = leerTexto(mensaje + " (" + tipos[0] + ", " + tipos[1] + ", " + tipos[2] + ", " + tipos[3] + "): ");
+        std::string entrada = leerTexto(mensaje + " (" + tipos[0] + ", " + tipos[1] + ", " + tipos[2] + "): ");
         std::string tipoNormalizado = normalizarTipoRobot(entrada);
 
         if (!tipoNormalizado.empty()) {
@@ -111,22 +155,22 @@ std::string leerTipoRobot(const std::string& mensaje) {
     }
 }
 
-Equipo capturarEquipo(int numeroEquipo) {
+Equipo capturarEquipo(int numeroEquipo, std::set<std::string>& nombresUsados) {
     std::cout << "\n--- Equipo " << numeroEquipo << " ---\n";
-    Equipo equipo(leerTexto("Nombre del equipo: "));
+    Equipo equipo(leerNombreUnico("Nombre del equipo: ", nombresUsados));
 
     int cantidadIntegrantes = leerCantidad("Cantidad de integrantes (1-3): ", 1, 3);
     for (int i = 1; i <= cantidadIntegrantes; ++i) {
         std::cout << "\nIntegrante " << i << "\n";
-        std::string nombre = leerTexto("Nombre: ");
-        std::string carrera = leerTexto("Carrera (rol): ");
+        std::string nombre = leerNombreUnico("Nombre: ", nombresUsados);
+        std::string carrera = leerCarrera("Carrera");
         equipo.agregarIntegrante(Integrante(nombre, carrera));
     }
 
-    int cantidadRobots = leerCantidad("Cuantos robots desea registrar en este equipo: ", 1);
+    int cantidadRobots = leerCantidad("Cuantos robots desea registrar en este equipo (1-2): ", 1, 2);
     for (int i = 1; i <= cantidadRobots; ++i) {
         std::cout << "\nRobot " << i << "\n";
-        std::string nombre = leerTexto("Nombre del robot: ");
+        std::string nombre = leerNombreUnico("Nombre del robot: ", nombresUsados);
         std::string tipo = leerTipoRobot("Tipo de robot");
         equipo.agregarRobot(Robot(nombre, tipo));
     }
@@ -146,9 +190,10 @@ int main() {
         std::cout << "BIENVENIDO AL SISTEMA DE GESTION DE COMPETENCIA DE ROBOTICA" << std::endl;
         std::cout << "Estado inicial: " << competencia.getEstadoString() << std::endl;
 
-        int cantidadEquipos = leerCantidad("Cantidad de equipos: ", 1);
+        std::set<std::string> nombresUsados;
+        int cantidadEquipos = leerCantidad("Cantidad de equipos (1-10): ", 1, 10);
         for (int i = 1; i <= cantidadEquipos; ++i) {
-            competencia.registrarEquipo(capturarEquipo(i));
+            competencia.registrarEquipo(capturarEquipo(i, nombresUsados));
         }
 
         competencia.cerrarRegistro();
