@@ -218,5 +218,5 @@ Se incorporan varios principios de programación orientada a objetos y buenas pr
 - La captura de nombres y texto no valida formato ni contenido útil, lo que puede generar registros inconsistentes.
 - El registro de equipos puede quedar desalineado si una entrada inválida se introduce en medio del proceso.
 =======
->>>>>>> f728f37e5d8d66ed6b0fc3f6691fd11fe5e6a28d
+
 
