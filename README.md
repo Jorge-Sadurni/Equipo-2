@@ -19,6 +19,36 @@ El desarrollo está organizado con separación entre interfaz y lógica, usando 
   <img src="Diagrama_de_Clases_Atributos.png" alt="Diagrama de clases" width="900" />
 </p>
 
+### Identificacion de clases y relaciones
+
+Las clases del sistema colaboran mediante llamadas a sus metodos y no utilizan herencia:
+
+- `Competencia`: administra el nombre, el estado, los equipos y las disciplinas. Registra equipos, cierra el registro, clasifica robots y genera los enfrentamientos.
+- `Equipo`: representa un equipo y contiene integrantes y robots.
+- `Integrante`: representa a una persona del equipo con nombre y rol.
+- `Robot`: representa un robot con nombre y tipo de disciplina.
+- `Disciplina`: agrupa robots del mismo tipo, genera enfrentamientos y almacena sus resultados.
+- `Enfrentamiento`: simula la competencia entre dos robots y determina el ganador.
+
+Relaciones principales:
+
+- Una `Competencia` contiene cero o varios `Equipo`.
+- Un `Equipo` contiene cero o varios `Integrante` y cero o varios `Robot`.
+- Una `Competencia` contiene las disciplinas disponibles.
+- Una `Disciplina` agrupa robots del mismo tipo y genera enfrentamientos.
+- Un `Enfrentamiento` recibe dos `Robot` para simular la competencia.
+
+```mermaid
+classDiagram
+    Competencia "1" o-- "0..*" Equipo : contiene
+    Competencia "1" o-- "1..*" Disciplina : administra
+    Equipo "1" o-- "0..*" Integrante : contiene
+    Equipo "1" o-- "0..*" Robot : contiene
+    Disciplina "1" o-- "0..*" Robot : agrupa
+    Disciplina "1" ..> "0..*" Enfrentamiento : genera
+    Enfrentamiento "1" ..> "2" Robot : enfrenta
+```
+
 ## Estructura del proyecto
 
 ```text
