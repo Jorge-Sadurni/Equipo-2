@@ -88,7 +88,14 @@ Equipo-2/
 
 ### En Windows
 
-Ejecuta el programa compilado:
+Desde la carpeta principal del repositorio, primero compila el programa:
+
+```powershell
+New-Item -ItemType Directory -Force build
+g++ -std=c++11 -Wall -Wextra -Iinclude src/main.cpp src/Competencia.cpp src/Disciplina.cpp src/Enfrentamiento.cpp src/Equipo.cpp src/Integrante.cpp src/Robot.cpp -o build/gestionRobots.exe
+```
+
+Luego ejecuta el programa:
 
 ```powershell
 .\build\gestionRobots.exe
@@ -96,7 +103,14 @@ Ejecuta el programa compilado:
 
 ### En macOS
 
-Ejecuta el programa compilado:
+Desde la carpeta principal del repositorio, primero compila el programa:
+
+```bash
+mkdir -p build
+g++ -std=c++11 -Wall -Wextra -Iinclude src/main.cpp src/Competencia.cpp src/Disciplina.cpp src/Enfrentamiento.cpp src/Equipo.cpp src/Integrante.cpp src/Robot.cpp -o build/gestionRobots
+```
+
+Luego ejecuta el programa:
 
 ```bash
 ./build/gestionRobots
