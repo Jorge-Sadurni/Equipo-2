@@ -16,7 +16,7 @@ El desarrollo está organizado con separación entre interfaz y lógica, usando 
 ### Diagrama de clases
 
 <p align="center">
-  <img src="Diagrama_de_Clases_Atributos.png" alt="Diagrama de clases" width="900" />
+  <img src="Diagrama de Clases y Atributos (1).png" alt="Diagrama de clases" width="900" />
 </p>
 
 ## Estructura del proyecto
@@ -120,8 +120,10 @@ Se incorporan varios principios de programación orientada a objetos y buenas pr
 - La lógica de competencia es didáctica, pero sigue una estructura clara que puede ampliarse para nuevas disciplinas, métricas o tipos de robot.
 - El flujo interactivo de consola está diseñado para que el usuario pueda registrar equipos reales y observar el resultado de la competencia en tiempo de ejecución.
 
-## Errores Conocidos y Areas de Mejora
+## Errores detectados
 
-- ** Registro de Equipos
- - En la fase de registrar equipos 
+- La validación de entradas numéricas no es robusta: valores como `1.5`, `.5`, `-3` o texto no numérico pueden romper el flujo del programa.
+- El buffer de entrada no se maneja de forma consistente, por lo que los datos sobrantes pueden contaminar los siguientes prompts.
+- La captura de nombres y texto no valida formato ni contenido útil, lo que puede generar registros inconsistentes.
+- El registro de equipos puede quedar desalineado si una entrada inválida se introduce en medio del proceso.
 
