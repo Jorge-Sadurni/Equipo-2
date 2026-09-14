@@ -33,16 +33,16 @@ void Disciplina::generarEnfrentamientos() {
     std::mt19937 g(rd());
     std::shuffle(robotsMezclados.begin(), robotsMezclados.end(), g);
     
-    // Crear parejas
-    for (size_t i = 0; i < robotsMezclados.size() - 1; i += 2) {
-        enfrentamientos.push_back({robotsMezclados[i], robotsMezclados[i + 1]});
-    }
-    
-    // Si queda un robot sin pareja, reportarlo
-    if (robotsMezclados.size() % 2 != 0) {
-        const Robot& sinRival = robotsMezclados[robotsMezclados.size() - 1];
-        std::cout << "Robot sin rival en " << tipo << ": " << sinRival.getNombre() 
-                  << " - Pasa directamente a la siguiente fase" << std::endl;
+    if (robotsMezclados.size() % 2 == 0) {
+        for (size_t i = 0; i < robotsMezclados.size(); i += 2) {
+            enfrentamientos.push_back({robotsMezclados[i], robotsMezclados[i + 1]});
+        }
+    } else {
+        for (size_t i = 0; i < robotsMezclados.size(); ++i) {
+            for (size_t j = i + 1; j < robotsMezclados.size(); ++j) {
+                enfrentamientos.push_back({robotsMezclados[i], robotsMezclados[j]});
+            }
+        }
     }
 }
 
