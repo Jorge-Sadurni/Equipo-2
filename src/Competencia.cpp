@@ -8,8 +8,8 @@ Competencia::Competencia(const std::string& nombre)
 }
 
 void Competencia::inicializarDisciplinas() {
-    // Tipos de robot sugeridos (puedes ampliarlos)
-    std::vector<std::string> tipos = {"Sumo", "Seguidor de linea", "Laberinto", "Velocista"};
+    
+    std::vector<std::string> tipos = {"Sumo", "Seguidor de linea", "Velocista"};
     for (const auto& tipo : tipos) {
         disciplinas.emplace(tipo, Disciplina(tipo));
     }

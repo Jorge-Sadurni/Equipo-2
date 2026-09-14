@@ -38,14 +38,24 @@
             "label": "C/C++: g++.exe build active file",
             "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
-                "-fdiagnostics-color=always",
+                "-std=c++11",
+                "-Wall",
+                "-Wextra",
                 "-g",
-                "${file}",
+                "${workspaceFolder}\\src\\main.cpp",
+                "${workspaceFolder}\\src\\Competencia.cpp",
+                "${workspaceFolder}\\src\\Disciplina.cpp",
+                "${workspaceFolder}\\src\\Enfrentamiento.cpp",
+                "${workspaceFolder}\\src\\Equipo.cpp",
+                "${workspaceFolder}\\src\\Integrante.cpp",
+                "${workspaceFolder}\\src\\Robot.cpp",
+                "-I",
+                "${workspaceFolder}\\include",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${workspaceFolder}\\build\\gestionRobots.exe"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
                 "$gcc"
