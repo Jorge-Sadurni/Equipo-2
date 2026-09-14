@@ -88,14 +88,14 @@ Equipo-2/
 
 ### En Windows
 
-Desde la carpeta principal del repositorio, primero compila el programa:
+Desde la carpeta principal del repositorio, compila:
 
 ```powershell
 New-Item -ItemType Directory -Force build
 g++ -std=c++11 -Wall -Wextra -Iinclude src/main.cpp src/Competencia.cpp src/Disciplina.cpp src/Enfrentamiento.cpp src/Equipo.cpp src/Integrante.cpp src/Robot.cpp -o build/gestionRobots.exe
 ```
 
-Luego ejecuta el programa:
+Despues de compilar, ejecuta:
 
 ```powershell
 .\build\gestionRobots.exe
@@ -103,14 +103,14 @@ Luego ejecuta el programa:
 
 ### En macOS
 
-Desde la carpeta principal del repositorio, primero compila el programa:
+Desde la carpeta principal del repositorio, compila:
 
 ```bash
 mkdir -p build
 g++ -std=c++11 -Wall -Wextra -Iinclude src/main.cpp src/Competencia.cpp src/Disciplina.cpp src/Enfrentamiento.cpp src/Equipo.cpp src/Integrante.cpp src/Robot.cpp -o build/gestionRobots
 ```
 
-Luego ejecuta el programa:
+Despues de compilar, ejecuta:
 
 ```bash
 ./build/gestionRobots
@@ -134,6 +134,55 @@ Al ejecutar el programa, la aplicación se comporta de la siguiente manera:
 7. Muestra el reporte final con los equipos participantes y los resultados por disciplina.
 
 En resumen, la aplicación no solo construye la estructura del problema, sino que también ejecuta todo el flujo real de una competencia: inscripción, clasificación, enfrentamientos y reporte final.
+
+## Funcionamiento de la competencia
+
+1. Se solicita la cantidad de equipos, con un maximo de 10.
+2. Se registran los integrantes y hasta 2 robots por equipo.
+3. Cada robot se clasifica automaticamente en SUMO, SEGUIDOR DE LINEA o VELOCISTA.
+4. Al cerrar el registro, cada disciplina genera sus enfrentamientos.
+5. Si una disciplina tiene dos o mas robots, se realiza un torneo todos contra todos. Cada pareja de robots compite una vez.
+6. Si una disciplina tiene cero o un robot, se informa que los enfrentamientos no se llevaron a cabo por falta de robots suficientes.
+7. Se ejecutan las batallas y se cuentan las victorias de cada robot.
+8. Se muestra el reporte final con los equipos, los enfrentamientos y los resultados.
+
+### Ganador absoluto
+
+El ganador absoluto se determina por disciplina. Cada vez que un robot gana una batalla, acumula una victoria. Al terminar todos los enfrentamientos, se comparan las victorias acumuladas y el robot con la mayor cantidad se muestra como:
+
+```text
+GANADOR ABSOLUTO DE SUMO: NOMBRE DEL ROBOT
+```
+
+Con tres robots se realizan tres enfrentamientos: el primero contra el segundo, el primero contra el tercero y el segundo contra el tercero. De esta forma, todos participan y el ganador absoluto es el robot que obtiene mas victorias.
+
+## Evidencia de pruebas
+
+| Caso de prueba | Resultado esperado |
+|---|---|
+| Registrar entre 1 y 10 equipos | Se acepta la cantidad y se rechazan valores fuera del rango |
+| Intentar registrar mas de 10 equipos | Se rechaza el equipo numero 11 |
+| Registrar mas de 2 robots en un equipo | Se rechaza la cantidad y se vuelve a solicitar |
+| Registrar nombres repetidos | Se rechaza el nombre y se solicita uno diferente |
+| Escribir nombres en minusculas | Los nombres se guardan en MAYUSCULAS |
+| Escribir una carrera no permitida | Solo se aceptan INGENIERIA MECATRONICA, INGENIERIA INDUSTRIAL e INGENIERIA AMBIENTAL |
+| Escribir una disciplina no permitida | Solo se aceptan SUMO, SEGUIDOR DE LINEA y VELOCISTA |
+| Registrar cero robots en una disciplina | Se informa que no se llevaron a cabo los enfrentamientos |
+| Registrar un robot en una disciplina | Se informa que no hubo robots suficientes |
+| Registrar tres robots en una disciplina | Se realiza un torneo todos contra todos |
+| Finalizar un torneo | Se cuentan las victorias y se muestra el ganador absoluto |
+
+### Bugs encontrados y corregidos
+
+
+- El programa permitia registrar mas de 10 equipos. Se agrego un limite de 10 equipos.
+- Cada equipo podia registrar mas de 2 robots. Se agrego la validacion correspondiente.
+- Se podian repetir nombres de equipos, integrantes y robots. Ahora todos los nombres deben ser unicos.
+- Se aceptaban carreras y disciplinas no validas. Ahora solo se aceptan las opciones definidas por la competencia.
+- Una disciplina sin robots o con un solo robot no mostraba claramente por que no habia competencia. Ahora informa la situacion en pantalla y en el reporte final.
+- Con una cantidad impar de robots, uno quedaba sin competir. Se cambio a un torneo todos contra todos.
+- No se mostraba un ganador general de la disciplina. Ahora se cuentan las victorias y se informa el ganador absoluto.
+
 
 ## Buenas prácticas aplicadas dentro del código
 
@@ -161,8 +210,4 @@ Se incorporan varios principios de programación orientada a objetos y buenas pr
 - La lógica de competencia es didáctica, pero sigue una estructura clara que puede ampliarse para nuevas disciplinas, métricas o tipos de robot.
 - El flujo interactivo de consola está diseñado para que el usuario pueda registrar equipos reales y observar el resultado de la competencia en tiempo de ejecución.
 
-## Errores Conocidos y Areas de Mejora
-
-- ** Registro de Equipos
- - En la fase de registrar equipos 
 
