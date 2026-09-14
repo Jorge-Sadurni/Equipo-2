@@ -8,8 +8,8 @@ Competencia::Competencia(const std::string& nombre)
 }
 
 void Competencia::inicializarDisciplinas() {
-    // Tipos de robot sugeridos (puedes ampliarlos)
-    std::vector<std::string> tipos = {"Sumo", "Seguidor de linea", "Laberinto", "Velocista"};
+    
+    std::vector<std::string> tipos = {"SUMO", "SEGUIDOR DE LINEA", "VELOCISTA"};
     for (const auto& tipo : tipos) {
         disciplinas.emplace(tipo, Disciplina(tipo));
     }
@@ -17,12 +17,15 @@ void Competencia::inicializarDisciplinas() {
 
 void Competencia::registrarEquipo(const Equipo& equipo) {
     if (estado != EstadoCompetencia::REGISTRO_ABIERTO) {
-        throw std::runtime_error("El registro está cerrado");
+        throw std::runtime_error("El registro esta cerrado");
+    }
+    if (equipos.size() >= 10) {
+        throw std::runtime_error("La competencia permite un maximo de 10 equipos");
     }
     
     equipos.push_back(equipo);
     inscribirRobotsAutomaticamente(equipo);
-    std::cout << "✓ Equipo " << equipo.getNombreEquipo() << " registrado" << std::endl;
+    std::cout << "Equipo " << equipo.getNombreEquipo() << " registrado" << std::endl;
 }
 
 void Competencia::inscribirRobotsAutomaticamente(const Equipo& equipo) {
@@ -31,7 +34,7 @@ void Competencia::inscribirRobotsAutomaticamente(const Equipo& equipo) {
         if (it != disciplinas.end()) {
             it->second.inscribirRobot(robot);
         } else {
-            std::cout << "Tipo de robot no válido: " << robot.getTipo() 
+            std::cout << "Tipo de robot no valido: " << robot.getTipo()
                       << " (Robot " << robot.getNombre() << ")" << std::endl;
         }
     }
@@ -39,7 +42,7 @@ void Competencia::inscribirRobotsAutomaticamente(const Equipo& equipo) {
 
 void Competencia::cerrarRegistro() {
     if (estado != EstadoCompetencia::REGISTRO_ABIERTO) {
-        throw std::runtime_error("El registro ya está cerrado");
+        throw std::runtime_error("El registro ya esta cerrado");
     }
     
     estado = EstadoCompetencia::REGISTRO_CERRADO;
@@ -84,13 +87,11 @@ void Competencia::generarReporte() const {
     std::cout << "REPORTE FINAL - " << nombre << std::endl;
     mostrarSeparador();
     
-    // Equipos participantes
     std::cout << "\nEQUIPOS PARTICIPANTES:" << std::endl;
     for (const auto& equipo : equipos) {
         equipo.mostrarResumen();
     }
     
-    // Resultados por disciplina
     std::cout << "\nRESULTADOS DE BATALLAS:" << std::endl;
     bool hayResultados = false;
     for (const auto& pair : disciplinas) {

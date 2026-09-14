@@ -2,6 +2,7 @@
 #include "Enfrentamiento.h"
 #include <iostream>
 #include <algorithm>
+#include <map>
 #include <random>
 #include <stdexcept>
 
@@ -14,17 +15,19 @@ void Disciplina::inscribirRobot(const Robot& robot) {
     robots.push_back(robot);
 }
 
-bool Disciplina::tieneRobots() const {
-    return !robots.empty();
-}
-
-int Disciplina::cantidadRobots() const {
-    return robots.size();
-}
-
 void Disciplina::generarEnfrentamientos() {
-    if (robots.size() < 2) {
-        std::cout << "Disciplina " << tipo << ": No hay suficientes robots para enfrentamientos" << std::endl;
+    if (robots.empty()) {
+        const std::string mensaje = "NO SE LLEVARON A CABO LOS ENFRENTAMIENTOS DE " + tipo + ": NO HUBO ROBOTS INSCRITOS";
+        resultados.push_back(mensaje);
+        std::cout << mensaje << std::endl;
+        return;
+    }
+
+    if (robots.size() == 1) {
+        const std::string mensaje = "NO SE LLEVARON A CABO LOS ENFRENTAMIENTOS DE " + tipo
+            + ": NO HUBO ROBOTS SUFICIENTES, SOLO HAY 1 ROBOT INSCRITO";
+        resultados.push_back(mensaje);
+        std::cout << mensaje << std::endl;
         return;
     }
     
@@ -34,52 +37,48 @@ void Disciplina::generarEnfrentamientos() {
     std::mt19937 g(rd());
     std::shuffle(robotsMezclados.begin(), robotsMezclados.end(), g);
     
-    // Crear parejas
-    for (size_t i = 0; i < robotsMezclados.size() - 1; i += 2) {
-        enfrentamientos.push_back({robotsMezclados[i], robotsMezclados[i + 1]});
-    }
-    
-    // Si queda un robot sin pareja, reportarlo
-    if (robotsMezclados.size() % 2 != 0) {
-        const Robot& sinRival = robotsMezclados[robotsMezclados.size() - 1];
-        std::cout << "Robot sin rival en " << tipo << ": " << sinRival.getNombre() 
-                  << " - Pasa directamente a la siguiente fase" << std::endl;
+    for (size_t i = 0; i < robotsMezclados.size(); ++i) {
+        for (size_t j = i + 1; j < robotsMezclados.size(); ++j) {
+            enfrentamientos.push_back({robotsMezclados[i], robotsMezclados[j]});
+        }
     }
 }
 
 void Disciplina::ejecutarEnfrentamientos() {
+    if (robots.size() < 2) {
+        return;
+    }
+
     Enfrentamiento enfrentamiento;
+    std::map<std::string, int> victorias;
+
+    for (const auto& robot : robots) {
+        victorias[robot.getNombre()] = 0;
+    }
     
     for (const auto& par : enfrentamientos) {
         int ganadorIndex = enfrentamiento.simularBatalla(par.first, par.second);
         const Robot& ganador = (ganadorIndex == 0) ? par.first : par.second;
+        ++victorias[ganador.getNombre()];
         
         std::string resultado = par.first.getNombre() + " vs " + par.second.getNombre() + 
-                               " → GANADOR: " + ganador.getNombre();
+                               " - GANADOR: " + ganador.getNombre();
         resultados.push_back(resultado);
         std::cout << resultado << std::endl;
     }
-}
 
-std::string Disciplina::getTipo() const {
-    return tipo;
-}
+    const Robot* ganadorAbsoluto = &robots.front();
+    for (const auto& robot : robots) {
+        if (victorias[robot.getNombre()] > victorias[ganadorAbsoluto->getNombre()]) {
+            ganadorAbsoluto = &robot;
+        }
+    }
 
-const std::vector<Robot>& Disciplina::getRobots() const {
-    return robots;
-}
-
-const std::vector<std::pair<Robot, Robot>>& Disciplina::getEnfrentamientos() const {
-    return enfrentamientos;
+    std::string resultadoFinal = "GANADOR ABSOLUTO DE " + tipo + ": " + ganadorAbsoluto->getNombre();
+    resultados.push_back(resultadoFinal);
+    std::cout << resultadoFinal << std::endl;
 }
 
 const std::vector<std::string>& Disciplina::getResultados() const {
     return resultados;
-}
-
-void Disciplina::mostrarResumen() const {
-    std::cout << "\n  Disciplina: " << tipo << " (" << robots.size() << " robots)" << std::endl;
-    for (const auto& robot : robots) {
-        std::cout << "    - " << robot.getNombre() << std::endl;
-    }
 }

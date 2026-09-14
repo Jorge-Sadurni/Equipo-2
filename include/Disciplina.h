@@ -14,21 +14,8 @@ private:
 public:
     explicit Disciplina(const std::string& tipo);
     
-    // Gestión de robots
     void inscribirRobot(const Robot& robot);
-    bool tieneRobots() const;
-    int cantidadRobots() const;
-    
-    // Generación de enfrentamientos
     void generarEnfrentamientos();
     void ejecutarEnfrentamientos();
-    
-    // Reportes
-    std::string getTipo() const;
-    const std::vector<Robot>& getRobots() const;
-    const std::vector<std::pair<Robot, Robot>>& getEnfrentamientos() const;
     const std::vector<std::string>& getResultados() const;
-    
-    // Mostrar información
-    void mostrarResumen() const;
 };

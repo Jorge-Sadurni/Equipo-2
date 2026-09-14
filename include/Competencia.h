@@ -4,7 +4,6 @@
 #include <map>
 #include "Equipo.h"
 #include "Disciplina.h"
-#include "Enfrentamiento.h"
 
 enum class EstadoCompetencia {
     REGISTRO_ABIERTO,
@@ -19,7 +18,6 @@ private:
     std::vector<Equipo> equipos;
     std::map<std::string, Disciplina> disciplinas;
     EstadoCompetencia estado;
-    Enfrentamiento enfrentamiento;
 
 public:
     explicit Competencia(const std::string& nombre);
