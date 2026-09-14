@@ -3,9 +3,7 @@
 
 using namespace std;
 
-// Clase Integrante: representa a un miembro del equipo.
-// Nota de clase: "rol" es un string libre en esta sesion (no enum),
-// se mantiene simple a proposito para enfocarnos en composicion y vectores.
+
 class Integrante
 {
 private:

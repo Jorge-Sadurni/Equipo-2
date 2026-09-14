@@ -6,9 +6,7 @@
 
 using namespace std;
 
-// Clase Equipo: HAS-A Integrante(s), HAS-A Robot(s).
-// Composicion practicada directamente porque es una pieza que
-// casi con certeza los equipos van a necesitar en su proyecto.
+
 class Equipo
 {
 private:

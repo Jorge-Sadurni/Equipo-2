@@ -7,7 +7,7 @@ Proyecto orientado a objetos para gestionar una competencia de robótica, donde 
 Este proyecto modela una competencia en la que:
 
 1. Se crean equipos con nombre, integrantes y robots.
-2. Cada robot pertenece a un tipo o disciplina, como `Sumo`, `Seguidor de linea`, `Laberinto` o `Velocista`.
+2. Cada robot pertenece a un tipo o disciplina, como `Sumo`, `Seguidor de linea` o `Velocista`.
 3. La competencia valida el registro, cierra la fase de inscripción y genera enfrentamientos por disciplina.
 4. Se ejecutan batallas aleatorias y se presenta un reporte final con los resultados.
 
@@ -39,7 +39,6 @@ Equipo-2/
 │   ├── Robot.cpp
 │   └── main.cpp
 ├── build/                          # Archivo compilado generado por el proyecto
-├── Makefile                        # Compilación y ejecución rápida
 ├── README.md
 └── Diagrama_de_Clases_Atributos.png
 ```
@@ -55,28 +54,28 @@ Equipo-2/
 
 ## Compilar y correr
 
-### Opción recomendada con Makefile
-
-Desde la raíz del proyecto:
-
-```bash
-make
-make run
-```
-
-Esto compila el proyecto y ejecuta el programa generado.
 
 ### Compilación manual
 
 ```bash
-g++ -std=c++11 -Wall -Wextra -Iinclude src/main.cpp src/Competencia.cpp src/Disciplina.cpp src/Enfrentamiento.cpp src/Equipo.cpp src/Integrante.cpp src/Robot.cpp -o competencia_robotica
-./competencia_robotica
+g++ -std=c++11 -Wall -Wextra -Iinclude src/main.cpp src/Competencia.cpp src/Disciplina.cpp src/Enfrentamiento.cpp src/Equipo.cpp src/Integrante.cpp src/Robot.cpp -o gestionRobots
+./gestionRobots
 ```
 
 ### En Windows
 
+Después de compilar el proyecto, ejecuta:
+
+```powershell
+.\gestionRobots.exe
+```
+
+### En macOS
+
+Después de compilar el proyecto, ejecuta desde la carpeta principal:
+
 ```bash
-competencia_robotica.exe
+./gestionRobots
 ```
 
 ## Qué esperar al correrlo
@@ -111,8 +110,12 @@ Se incorporan varios principios de programación orientada a objetos y buenas pr
 - Validaciones básicas en setters y en la lógica de registro, por ejemplo, evitando equipos con demasiados integrantes o tipos inválidos.
 - Uso de `std::vector` para manejar colecciones dinámicas de equipos, integrantes y robots.
 - Organización modular del comportamiento: cada clase tiene una responsabilidad clara dentro del sistema.
-- Uso de `std::random` para simular resultados de manera más realista que un simple `rand()`.
+- Uso de `<random>` con `std::random_device`, `std::mt19937` y `std::uniform_int_distribution` para simular resultados.
 - Manejo de errores con `std::runtime_error` y `std::invalid_argument` para avisar cuando una operación no es válida.
+- Uso de `enum class` para representar de forma segura los estados de la competencia.
+- Uso de `std::map` para organizar las disciplinas por tipo de robot.
+- Uso de bucles basados en rango (`for (const auto& elemento : coleccion)`) para recorrer colecciones de forma clara.
+- Gestión automática de memoria mediante contenedores de la biblioteca estándar, sin utilizar punteros ni liberación manual.
 
 ## Observaciones
 
