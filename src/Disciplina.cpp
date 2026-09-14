@@ -14,17 +14,16 @@ void Disciplina::inscribirRobot(const Robot& robot) {
     robots.push_back(robot);
 }
 
-bool Disciplina::tieneRobots() const {
-    return !robots.empty();
-}
-
-int Disciplina::cantidadRobots() const {
-    return robots.size();
-}
-
 void Disciplina::generarEnfrentamientos() {
-    if (robots.size() < 2) {
-        std::cout << "Disciplina " << tipo << ": No hay suficientes robots para enfrentamientos" << std::endl;
+    if (robots.empty()) {
+        std::cout << "Disciplina " << tipo << ": NO HUBO ROBOTS INSCRITOS" << std::endl;
+        return;
+    }
+
+    if (robots.size() == 1) {
+        std::cout << "Disciplina " << tipo
+                  << ": NO HUBO ROBOTS SUFICIENTES, SOLO HAY 1 ROBOT INSCRITO"
+                  << std::endl;
         return;
     }
     
@@ -55,31 +54,12 @@ void Disciplina::ejecutarEnfrentamientos() {
         const Robot& ganador = (ganadorIndex == 0) ? par.first : par.second;
         
         std::string resultado = par.first.getNombre() + " vs " + par.second.getNombre() + 
-                               " → GANADOR: " + ganador.getNombre();
+                               " - GANADOR: " + ganador.getNombre();
         resultados.push_back(resultado);
         std::cout << resultado << std::endl;
     }
 }
 
-std::string Disciplina::getTipo() const {
-    return tipo;
-}
-
-const std::vector<Robot>& Disciplina::getRobots() const {
-    return robots;
-}
-
-const std::vector<std::pair<Robot, Robot>>& Disciplina::getEnfrentamientos() const {
-    return enfrentamientos;
-}
-
 const std::vector<std::string>& Disciplina::getResultados() const {
     return resultados;
-}
-
-void Disciplina::mostrarResumen() const {
-    std::cout << "\n  Disciplina: " << tipo << " (" << robots.size() << " robots)" << std::endl;
-    for (const auto& robot : robots) {
-        std::cout << "    - " << robot.getNombre() << std::endl;
-    }
 }

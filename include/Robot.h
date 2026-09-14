@@ -1,23 +1,18 @@
 #pragma once
 #include <string>
 
-using namespace std;
-
-
 class Robot
 {
 private:
-    string nombre;
-    string tipo; 
+    std::string nombre;
+    std::string tipo;
 
 public:
-    
-    Robot(const string &nombre, const string &tipo);
+    Robot(const std::string& nombre, const std::string& tipo);
 
-    
-    string getNombre() const;
-    string getTipo() const;
+    std::string getNombre() const;
+    std::string getTipo() const;
 
-    void setNombre(const string &nuevoNombre);
-    void setTipo(const string &nuevoTipo);
+    void setNombre(const std::string& nuevoNombre);
+    void setTipo(const std::string& nuevoTipo);
 };

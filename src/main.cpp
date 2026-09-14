@@ -7,9 +7,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#if defined(_WIN32)
-#include <windows.h>
-#endif
 #include "Competencia.h"
 #include "Equipo.h"
 #include "Integrante.h"
@@ -28,20 +25,6 @@ static std::string normalizarTexto(const std::string& texto) {
     }
 
     std::string resultado = texto.substr(inicio, fin - inicio);
-    const std::vector<std::pair<std::string, std::string>> acentos = {
-        {"á", "a"}, {"é", "e"}, {"í", "i"}, {"ó", "o"}, {"ú", "u"},
-        {"Á", "A"}, {"É", "E"}, {"Í", "I"}, {"Ó", "O"}, {"Ú", "U"},
-        {"ü", "u"}, {"Ü", "U"}, {"ñ", "n"}, {"Ñ", "N"}
-    };
-
-    for (const auto& acento : acentos) {
-        size_t posicion = 0;
-        while ((posicion = resultado.find(acento.first, posicion)) != std::string::npos) {
-            resultado.replace(posicion, acento.first.size(), acento.second);
-            posicion += acento.second.size();
-        }
-    }
-
     std::transform(resultado.begin(), resultado.end(), resultado.begin(), [](unsigned char c) {
         return static_cast<char>(std::toupper(c));
     });
@@ -179,13 +162,8 @@ Equipo capturarEquipo(int numeroEquipo, std::set<std::string>& nombresUsados) {
 }
 
 int main() {
-#if defined(_WIN32)
-    SetConsoleOutputCP(CP_UTF8);
-    SetConsoleCP(CP_UTF8);
-#endif
-
     try {
-        Competencia competencia("Competencia de Robótica 2026");
+        Competencia competencia("COMPETENCIA DE ROBOTICA 2026");
 
         std::cout << "BIENVENIDO AL SISTEMA DE GESTION DE COMPETENCIA DE ROBOTICA" << std::endl;
         std::cout << "Estado inicial: " << competencia.getEstadoString() << std::endl;

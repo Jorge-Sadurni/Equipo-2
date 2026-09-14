@@ -6,7 +6,7 @@ Equipo::Equipo(const std::string& nombreEquipo) : nombreEquipo(nombreEquipo) {}
 
 void Equipo::agregarIntegrante(const Integrante& i) {
     if (integrantes.size() >= 3) {
-        throw std::runtime_error("El equipo ya tiene el número máximo de integrantes (3)");
+        throw std::runtime_error("El equipo ya tiene el numero maximo de integrantes (3)");
     }
     integrantes.push_back(i);
 }
